@@ -1,0 +1,44 @@
+<?php
+
+namespace EntitasBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+/**
+ * RegionalPropinsi
+ *
+ * @ORM\Table(name="regional_propinsi")
+ * @ORM\Entity
+ */
+class RegionalPropinsi
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="namapropinsi", type="string", length=255, nullable=false)
+     */
+    private $namapropinsi;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RegionalKabupaten", mappedBy="propinsis")
+     */
+    protected $kabupatens;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->kabupatens = new ArrayCollection();
+    }
+}
+

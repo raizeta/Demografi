@@ -1,0 +1,78 @@
+<?php
+
+namespace EntitasBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * RegionalKabupaten
+ *
+ * @ORM\Table(name="regional_kabupaten", indexes={@ORM\Index(name="IDX_4DE3A56CEA5CC336", columns={"propinsis"})})
+ * @ORM\Entity
+ */
+class RegionalKabupaten
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_kabupaten", type="integer", nullable=false)
+     */
+    private $idKabupaten;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nama_kabupaten", type="string", length=255, nullable=false)
+     */
+    private $namaKabupaten;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type_kabupaten", type="string", length=255, nullable=false)
+     */
+    private $typeKabupaten;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="kode_pos", type="integer", nullable=false)
+     */
+    private $kodePos;
+
+    /**
+     * @var \RegionalPropinsi
+     *
+     * @ORM\ManyToOne(targetEntity="RegionalPropinsi",inversedBy="kabupatens")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="propinsis", referencedColumnName="id")
+     * })
+     */
+    private $propinsis;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RegionalKecamatan", mappedBy="kabupatens")
+     */
+    protected $kecamatans;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->kecamatans = new ArrayCollection();
+    }
+
+
+}
+

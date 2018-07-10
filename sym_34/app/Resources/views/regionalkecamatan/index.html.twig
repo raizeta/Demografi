@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Regionalkecamatans list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Idkecamatan</th>
+                <th>Namakecamatan</th>
+                <th>Kodepos</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for regionalKecamatan in regionalKecamatans %}
+            <tr>
+                <td><a href="{{ path('regionalkecamatan_show', { 'id': regionalKecamatan.id }) }}">{{ regionalKecamatan.id }}</a></td>
+                <td>{{ regionalKecamatan.idKecamatan }}</td>
+                <td>{{ regionalKecamatan.namaKecamatan }}</td>
+                <td>{{ regionalKecamatan.kodePos }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('regionalkecamatan_show', { 'id': regionalKecamatan.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('regionalkecamatan_edit', { 'id': regionalKecamatan.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('regionalkecamatan_new') }}">Create a new regionalKecamatan</a>
+        </li>
+    </ul>
+{% endblock %}

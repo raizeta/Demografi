@@ -1,0 +1,24 @@
+regionalkabupaten_index:
+    path:     /
+    defaults: { _controller: "EntitasBundle:RegionalKabupaten:index" }
+    methods:  GET
+
+regionalkabupaten_show:
+    path:     /{id}/show
+    defaults: { _controller: "EntitasBundle:RegionalKabupaten:show" }
+    methods:  GET
+
+regionalkabupaten_new:
+    path:     /new
+    defaults: { _controller: "EntitasBundle:RegionalKabupaten:new" }
+    methods:  [GET, POST]
+
+regionalkabupaten_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EntitasBundle:RegionalKabupaten:edit" }
+    methods:  [GET, POST]
+
+regionalkabupaten_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EntitasBundle:RegionalKabupaten:delete" }
+    methods:  DELETE

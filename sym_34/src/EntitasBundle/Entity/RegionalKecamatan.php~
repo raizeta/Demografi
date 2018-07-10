@@ -1,0 +1,59 @@
+<?php
+
+namespace EntitasBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * RegionalKecamatan
+ *
+ * @ORM\Table(name="regional_kecamatan", indexes={@ORM\Index(name="IDX_B8576989A4851CF", columns={"kabupatens"})})
+ * @ORM\Entity
+ */
+class RegionalKecamatan
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_kecamatan", type="integer", nullable=false)
+     */
+    private $idKecamatan;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nama_kecamatan", type="string", length=255, nullable=false)
+     */
+    private $namaKecamatan;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="kode_pos", type="integer", nullable=true)
+     */
+    private $kodePos;
+
+    /**
+     * @var \RegionalKabupaten
+     *
+     * @ORM\ManyToOne(targetEntity="RegionalKabupaten",inversedBy="kecamatans")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="kabupatens", referencedColumnName="id")
+     * })
+     */
+    private $kabupatens;
+
+    
+
+
+}
+

@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row justify-content-md-center" style="margin-top:10px;">
+        <div class="col-12">
+            <a href="{{ path('regionalpropinsi_new') }}" class="btn btn-outline-secondary btn-sm" role="button" style="margin-bottom:10px;">
+                Tambah Propinsi
+            </a>
+            <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#exampleModalLong"  style="margin-bottom:10px;">
+              Modal Tambah Propinsi
+            </button>
+            <table class="table table-striped table-dark table-bordered table-hover table-sm" id="tabledata">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Namapropinsi</th>
+                        <th align="center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for regionalPropinsi in regionalPropinsis %}
+                    <tr>
+                        <td align="center">
+                            <a href="{{ path('regionalpropinsi_show', { 'id': regionalPropinsi.id }) }}">
+                                {{ regionalPropinsi.id }}
+                            </a>
+                        </td>
+                        <td>&nbsp;&nbsp;{{ regionalPropinsi.namapropinsi }}</td>
+                        <td align="center">
+                            <a href="{{ path('regionalpropinsi_edit', { 'id': regionalPropinsi.id }) }}" class="btn btn-outline-success btn-sm" role="button" style="color:white">Edit</a>
+                            <a href="{{ path('regionalpropinsi_show', { 'id': regionalPropinsi.id }) }}" class="btn btn-outline-success btn-sm" role="button" style="color:white">Detail</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        
+
+            <!-- Modal -->
+            
+            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Tambah Propinsi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                    <form class="tagForm" id="tag-form" action="" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <label for="tagName">Nama Propinsi</label>
+                            <input id="tagName" name="namapropinsi" class="form-control" type="text"/>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input id="tag-form-submit" type="submit" class="btn btn-primary" value="Save">
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+            {# Modal #}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+<script>
+    $('#exampleModalLong').on('shown.bs.modal', function () 
+    {
+      $('#tag-form').trigger('reset');
+    });
+    $('#tag-form-submit').on('click', function(e) 
+    {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "{{path('regionalpropinsi_new')}}",
+            data: $('form.tagForm').serialize(),
+            success: function(response) 
+            {
+                $("#tabledata tr:first").after(response.data);
+            },
+            error: function() 
+            {
+                console.log("Error");
+            },
+            complete:function()
+            {
+                $('#exampleModalLong').modal('toggle');  
+            }
+        });
+        return false;
+    });
+</script>
+{% endblock %}

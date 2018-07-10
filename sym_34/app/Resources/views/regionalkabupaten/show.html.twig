@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row justify-content-md-center" style="margin-top:10px;">
+    <div class="col-6">
+        <a href="" class="btn btn-outline-secondary btn-block btn-sm" role="button" style="margin-bottom:10px;">
+            {# {{ dump(regionalKecamatans)}} #}
+            {{regionalKecamatans[0].typeKabupaten}} {{regionalKecamatans[0].namaKabupaten}}
+        </a>
+        <table class="table table-striped table-dark table-bordered table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Namakecamatan</th>
+                    <th>Kodepos</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for regionalKecamatan in regionalKecamatans[0].kecamatans %}
+                <tr>
+                    <td align="center">
+                        <a href="">
+                            {{ loop.index }}
+                        </a>
+                    </td>
+                    <td>{{ regionalKecamatan.namaKecamatan }}</td>
+                    <td>{{ regionalKecamatan.kodePos }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

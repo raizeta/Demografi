@@ -1,0 +1,11 @@
+entitas_regionalpropinsi:
+    resource: "@EntitasBundle/Resources/config/routing/regionalpropinsi.yml"
+    prefix:   /regionalpropinsi
+
+entitas_regionalkabupaten:
+    resource: "@EntitasBundle/Resources/config/routing/regionalkabupaten.yml"
+    prefix:   /regionalkabupaten
+
+entitas_regionalkecamatan:
+    resource: "@EntitasBundle/Resources/config/routing/regionalkecamatan.yml"
+    prefix:   /regionalkecamatan

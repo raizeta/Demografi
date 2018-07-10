@@ -1,0 +1,24 @@
+regionalpropinsi_index:
+    path:     /
+    defaults: { _controller: "EntitasBundle:RegionalPropinsi:index" }
+    methods:  GET
+
+regionalpropinsi_show:
+    path:     /{id}/show
+    defaults: { _controller: "EntitasBundle:RegionalPropinsi:show" }
+    methods:  GET
+
+regionalpropinsi_new:
+    path:     /new
+    defaults: { _controller: "EntitasBundle:RegionalPropinsi:new" }
+    methods:  [GET, POST]
+
+regionalpropinsi_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EntitasBundle:RegionalPropinsi:edit" }
+    methods:  [GET, POST]
+
+regionalpropinsi_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EntitasBundle:RegionalPropinsi:delete" }
+    methods:  DELETE

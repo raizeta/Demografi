@@ -1,0 +1,4 @@
+entitas:
+    resource: "@EntitasBundle/Resources/config/routing.yml"
+    prefix:   /
+
