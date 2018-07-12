@@ -2,6 +2,8 @@ regionalpropinsi_index:
     path:     /
     defaults: { _controller: "EntitasBundle:RegionalPropinsi:index" }
     methods:  GET
+    requirements:
+        page: '\d+'
 
 regionalpropinsi_show:
     path:     /{id}/show

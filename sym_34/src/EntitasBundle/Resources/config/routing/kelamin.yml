@@ -1,0 +1,24 @@
+kelamin_index:
+    path:     /
+    defaults: { _controller: "EntitasBundle:Kelamin:index" }
+    methods:  GET
+
+kelamin_show:
+    path:     /{id}/show
+    defaults: { _controller: "EntitasBundle:Kelamin:show" }
+    methods:  GET
+
+kelamin_new:
+    path:     /new
+    defaults: { _controller: "EntitasBundle:Kelamin:new" }
+    methods:  [GET, POST]
+
+kelamin_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EntitasBundle:Kelamin:edit" }
+    methods:  [GET, POST]
+
+kelamin_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EntitasBundle:Kelamin:delete" }
+    methods:  DELETE

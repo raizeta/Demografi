@@ -1,0 +1,24 @@
+pernikahan_index:
+    path:     /
+    defaults: { _controller: "EntitasBundle:Pernikahan:index" }
+    methods:  GET
+
+pernikahan_show:
+    path:     /{id}/show
+    defaults: { _controller: "EntitasBundle:Pernikahan:show" }
+    methods:  GET
+
+pernikahan_new:
+    path:     /new
+    defaults: { _controller: "EntitasBundle:Pernikahan:new" }
+    methods:  [GET, POST]
+
+pernikahan_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EntitasBundle:Pernikahan:edit" }
+    methods:  [GET, POST]
+
+pernikahan_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EntitasBundle:Pernikahan:delete" }
+    methods:  DELETE

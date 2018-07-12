@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Regionalpropinsi controller.
  *
@@ -17,10 +18,13 @@ class RegionalPropinsiController extends Controller
      * Lists all regionalPropinsi entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $regionalPropinsis = $em->getRepository('EntitasBundle:RegionalPropinsi')->findAll();
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($regionalPropinsis,$request->query->getInt('page', 1),10);
 
         $propinsiform = new Regionalpropinsi();
         $form = $this->createForm('EntitasBundle\Form\RegionalPropinsiType', $propinsiform);
@@ -28,7 +32,7 @@ class RegionalPropinsiController extends Controller
         return $this->render
         (   'regionalpropinsi/index.html.twig',
             [
-                'regionalPropinsis' => $regionalPropinsis,
+                'regionalPropinsis' => $pagination,
                 'form' => $form->createView(),
             ]
         );
@@ -59,7 +63,7 @@ class RegionalPropinsiController extends Controller
             $em->persist($regionalPropinsi);
             $em->flush();
             $this->get('session')->getFlashBag()->add('notice','Data Telah Berhasil di Simpan');
-            return $this->redirectToRoute('regionalpropinsi_show', array('id' => $regionalPropinsi->getId()));
+            return $this->redirectToRoute('regionalpropinsi_new');
         }
 
         return ['regionalPropinsi' => $regionalPropinsi,'form' => $form->createView()];
@@ -85,8 +89,20 @@ class RegionalPropinsiController extends Controller
      * Displays a form to edit an existing regionalPropinsi entity.
      *
      */
-    public function editAction(Request $request, RegionalPropinsi $regionalPropinsi)
+    public function editAction(Session $session,Request $request, RegionalPropinsi $regionalPropinsi)
     {
+        $pathInfo   = $request->headers->get('referer');
+        $data       = parse_url($pathInfo);
+        $paramurl   = [];
+        if(array_key_exists("query",$data))
+        {
+            parse_str($data['query'],$paramurl);
+            $session->set('parameterurl',$paramurl);
+        }
+        if($session->get('parameterurl'))
+        {
+            $paramurl = $session->get('parameterurl');
+        }
         $deleteForm = $this->createDeleteForm($regionalPropinsi);
         $editForm = $this->createForm('EntitasBundle\Form\RegionalPropinsiType', $regionalPropinsi);
         $editForm->handleRequest($request);
@@ -94,8 +110,7 @@ class RegionalPropinsiController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) 
         {
             $this->getDoctrine()->getManager()->flush();
-            $this->get('session')->getFlashBag()->add('notice','Data Telah Berhasil di Simpan');
-            return $this->redirectToRoute('regionalpropinsi_edit', array('id' => $regionalPropinsi->getId()));
+            return $this->redirectToRoute('regionalpropinsi_index',$paramurl);
         }
 
         return $this->render('regionalpropinsi/edit.html.twig', array(

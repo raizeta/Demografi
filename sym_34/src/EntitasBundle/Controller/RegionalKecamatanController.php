@@ -16,14 +16,16 @@ class RegionalKecamatanController extends Controller
      * Lists all regionalKecamatan entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $regionalKecamatans = $em->getRepository('EntitasBundle:RegionalKecamatan')->findAll();
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($regionalKecamatans,$request->query->getInt('page', 1),10);
 
         return $this->render('regionalkecamatan/index.html.twig', array(
-            'regionalKecamatans' => $regionalKecamatans,
+            'regionalKecamatans' => $pagination,
         ));
     }
 

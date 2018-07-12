@@ -16,14 +16,17 @@ class RegionalKabupatenController extends Controller
      * Lists all regionalKabupaten entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $page   = $request->query->getInt('page', 1);
+        $limit  = $request->query->getInt('limit', 50);
         $em = $this->getDoctrine()->getManager();
-
         $regionalKabupatens = $em->getRepository('EntitasBundle:RegionalKabupaten')->findAll();
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($regionalKabupatens,$page,$limit);
 
         return $this->render('regionalkabupaten/index.html.twig', array(
-            'regionalKabupatens' => $regionalKabupatens,
+            'regionalKabupatens' => $pagination,
         ));
     }
 

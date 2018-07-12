@@ -4,19 +4,91 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link href="{{asset('bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+            <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" media="screen">
+            <link href="{{asset('custom/style.css')}}" rel="stylesheet" media="screen">
+            <link href="{{asset('font/css/all.css')}}" rel="stylesheet">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        <div class="container-fluid">
-        {% block body %}
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{path('home_index')}}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Regional
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{{path('regionalpropinsi_index')}}">
+                            Propinsi
+                            </a>
+                          <a class="dropdown-item" href="{{path('regionalkabupaten_index')}}">
+                            Kabupaten
+                            </a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{path('regionalkecamatan_index')}}">
+                            Kecamatan
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Status
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{{path('pendidikan_index')}}">
+                            Pendidikan
+                            </a>
+                          <a class="dropdown-item" href="{{path('pernikahan_index')}}">
+                            Pernikahan
+                            </a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{path('kelamin_index')}}">
+                            Jenis Kelamin
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="mx-auto order-0">
+                <a class="navbar-brand mx-auto" href="#">DEMOGRAFI</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <a class="nav-link" href="{{ path('fos_user_security_logout') }}">
+                                Logout
+                            </a>
+                        {% else %}
+                            <a class="nav-link" href="{{ path('fos_user_security_login') }}">
+                               Login
+                            </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main role="main" class="container">
+            <div class="jumbotron" style="background-color:white;">
+                <div class="row justify-content-md-center" style="margin-top:10px;">
+                    <div class="col-10">
+                        {% block body %}
 
-        {% endblock %}
-        </div>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </main>
         {% block javascripts %}
             <script src="{{asset('jquery/dist/jquery.min.js')}}"></script>
-            <script src="{{asset('bootstrap/dist/js/bootstrap.min.js')}}"></script>
+            <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
 
         {% endblock %}
     </body>

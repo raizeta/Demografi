@@ -1,16 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Regionalkecamatan creation</h1>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('regionalkecamatan_index') }}">Back to the list</a>
-        </li>
-    </ul>
+<div class="row justify-content-md-center">
+    <div class="col-6">
+        <div class="card" >
+            <div class="card-block"  style="padding:30px;">
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-success" role="alert" style="top:10px;">
+                      {{ message }}
+                    </div>
+                {% endfor %}
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-md btn-block" style="margin-top:10px;">
+                        Save
+                    </button>
+                {{ form_end(form) }}
+                <a onclick="window.history.back()" role="button" class="btn btn-md btn-success btn-block" style="margin-top:10px;">
+                    Back to the list
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

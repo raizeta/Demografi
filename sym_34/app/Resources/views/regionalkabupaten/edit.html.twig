@@ -3,24 +3,30 @@
 {% block body %}
   <div class="row justify-content-md-center">
     <div class="col-6">
-        {% for message in app.flashes('notice') %}
-            <div class="alert alert-success" role="alert" style="top:10px;">
-              {{ message }}
-            </div>
-      {% endfor %}
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <button type="submit" class="btn btn-success btn-md btn-block" style="margin-top:10px;">
-            Save
-        </button>
-    {{ form_end(edit_form) }}
-    {{ form_start(delete_form) }}
-        <button type="submit" class="btn btn-danger btn-md btn-block" style="margin-top:10px;">
-            Delete
-        </button>
-    {{ form_end(delete_form) }}
+        <div class="card" >
+            <div class="card-block"  style="padding:30px;">
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-success" role="alert" style="top:10px;">
+                      {{ message }}
+                    </div>
+                {% endfor %}
+                {{ form_start(edit_form) }}
+                    {{ form_widget(edit_form) }}
+                    <button type="submit" class="btn btn-success btn-md btn-block" style="margin-top:10px;">
+                        Save
+                    </button>
+                {{ form_end(edit_form) }}
+                {{ form_start(delete_form) }}
+                    <button type="submit" class="btn btn-danger btn-md btn-block" style="margin-top:10px;">
+                        Delete
+                    </button>
+                {{ form_end(delete_form) }}
 
-        <a class="btn btn-md btn-primary btn-block" href="{{ path('regionalkabupaten_index') }}" style="margin-top:10px;">Back to the list</a>
+                <a class="btn btn-md btn-primary btn-block" onclick="window.history.back()" style="margin-top:10px;">
+                        Back to the list
+                    </a>
+            </div>
+        </div>
     </div>
   </div>
 {% endblock %}

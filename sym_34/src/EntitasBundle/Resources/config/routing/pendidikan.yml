@@ -1,0 +1,24 @@
+pendidikan_index:
+    path:     /
+    defaults: { _controller: "EntitasBundle:Pendidikan:index" }
+    methods:  GET
+
+pendidikan_show:
+    path:     /{id}/show
+    defaults: { _controller: "EntitasBundle:Pendidikan:show" }
+    methods:  GET
+
+pendidikan_new:
+    path:     /new
+    defaults: { _controller: "EntitasBundle:Pendidikan:new" }
+    methods:  [GET, POST]
+
+pendidikan_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EntitasBundle:Pendidikan:edit" }
+    methods:  [GET, POST]
+
+pendidikan_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EntitasBundle:Pendidikan:delete" }
+    methods:  DELETE

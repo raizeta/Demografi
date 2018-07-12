@@ -9,3 +9,18 @@ entitas_regionalkabupaten:
 entitas_regionalkecamatan:
     resource: "@EntitasBundle/Resources/config/routing/regionalkecamatan.yml"
     prefix:   /regionalkecamatan
+
+entitas_kelamin:
+    resource: "@EntitasBundle/Resources/config/routing/kelamin.yml"
+    prefix:   /kelamin
+
+entitas_pendidikan:
+    resource: "@EntitasBundle/Resources/config/routing/pendidikan.yml"
+    prefix:   /pendidikan
+
+entitas_pernikahan:
+    resource: "@EntitasBundle/Resources/config/routing/pernikahan.yml"
+    prefix:   /pernikahan
+home_index:
+    path:     /
+    defaults: { _controller: EntitasBundle:Home:index }

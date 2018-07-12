@@ -1,0 +1,70 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+  	<div class="container">
+	    <div class="row" style="padding:10px;">
+	        <div class="col-md-4">
+	            <div class="card text-center" >
+	                <div class="card-block"  style="margin-bottom:10px;">
+	                    <h5 class="card-title">Propinsi</h5>
+	                    <a href="{{path('regionalpropinsi_index')}}">
+	                    	<i class="fa fa-globe fa-5x"></i>
+                    	</a>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-md-4">
+	            <div class="card text-center">
+	                <div class="card-block"  style="margin-bottom:10px;">
+	                    <h5 class="card-title">Kabupaten</h5>
+	                    <a href="{{path('regionalkabupaten_index')}}">
+	                    	<i class="fa fa-university fa-5x"></i>
+                    	</a>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-md-4">
+	            <div class="card text-center">
+	                <div class="card-block" style="margin-bottom:10px;">
+	                    <h5 class="card-title">Kecamatan</h5>
+	                    <a href="{{path('regionalkecamatan_index')}}">
+	                    	<i class="fa fa-map-marker fa-5x"></i>\
+                    	</a>
+	                </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding:10px;">
+	        <div class="col-md-4">
+	            <div class="card text-center" >
+	                <div class="card-block"  style="margin-bottom:10px;">
+	                    <h5 class="card-title">Kelamin</h5>
+	                    <a href="{{path('kelamin_index')}}">
+	                    	<i class="fa fa-globe fa-5x"></i>
+                    	</a>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-md-4">
+	            <div class="card text-center">
+	                <div class="card-block"  style="margin-bottom:10px;">
+	                    <h5 class="card-title">Pernikahan</h5>
+	                    <a href="{{path('pernikahan_index')}}">
+	                    	<i class="fa fa-university fa-5x"></i>
+                    	</a>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="col-md-4">
+	            <div class="card text-center">
+	                <div class="card-block" style="margin-bottom:10px;">
+	                    <h5 class="card-title">Pendidikan</h5>
+	                    <a href="{{path('pendidikan_index')}}">
+	                    	<i class="fa fa-map-marker fa-5x"></i>\
+                    	</a>
+	                </div>
+                </div>
+            </div>
+        </div>
+	 </div>
+{% endblock %}
