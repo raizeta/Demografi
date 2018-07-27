@@ -22,9 +22,10 @@ class RegionalPropinsiController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $regionalPropinsis = $em->getRepository('EntitasBundle:RegionalPropinsi')->findAll();
-
+        $page       = $request->query->getInt('page', 1);
+        $limit      = $request->query->getInt('limit', 10);
         $paginator  = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($regionalPropinsis,$request->query->getInt('page', 1),10);
+        $pagination = $paginator->paginate($regionalPropinsis,$page,$limit);
 
         $propinsiform = new Regionalpropinsi();
         $form = $this->createForm('EntitasBundle\Form\RegionalPropinsiType', $propinsiform);
@@ -34,6 +35,7 @@ class RegionalPropinsiController extends Controller
             [
                 'regionalPropinsis' => $pagination,
                 'form' => $form->createView(),
+                'limit'=>$limit
             ]
         );
     }
