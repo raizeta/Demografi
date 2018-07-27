@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+	{{ form_label(form.email) }}
+  	{{ form_widget(form.email,{'attr':{'placeholder':'Email','class':'form-control'}}) }}
+
+  	{{ form_label(form.username) }}
+  	{{ form_widget(form.username,{'attr':{'placeholder':'Username','class':'form-control'}}) }}
+
+  	{{ form_label(form.plainPassword['first']) }}
+  	{{ form_widget(form.plainPassword['first'],{'attr':{'placeholder':'Password','class':'form-control'}}) }}
+
+  	{{ form_label(form.plainPassword['second']) }}
+  	{{ form_widget(form.plainPassword['second'],{'attr':{'placeholder':'Repeat Password','class':'form-control'}}) }}
+
+
+    <button type="submit" class="btn btn-md btn-block btn-primary" id="_submit" name="_submit"style="margin-top:10px;">
+        Save
+    </button>
+{{ form_end(form) }}
+{% endblock body %}
