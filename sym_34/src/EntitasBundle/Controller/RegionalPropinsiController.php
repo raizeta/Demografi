@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Session\Session;
+
+use EntitasBundle\Form\RegionalPropinsiType;
 /**
  * Regionalpropinsi controller.
  *
@@ -27,15 +29,15 @@ class RegionalPropinsiController extends Controller
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate($regionalPropinsis,$page,$limit);
 
-        $propinsiform = new Regionalpropinsi();
-        $form = $this->createForm('EntitasBundle\Form\RegionalPropinsiType', $propinsiform);
+        $propinsiform   = new Regionalpropinsi();
+        $actionurl      = $this->generateUrl('regionalpropinsi_new');
+        $form           = $this->createForm(RegionalPropinsiType::class,$propinsiform,['action' => $actionurl,'method' => 'POST']);
 
         return $this->render
         (   'regionalpropinsi/index.html.twig',
             [
                 'regionalPropinsis' => $pagination,
                 'form' => $form->createView(),
-                'limit'=>$limit
             ]
         );
     }
@@ -46,19 +48,34 @@ class RegionalPropinsiController extends Controller
     public function newAction(Request $request)
     {
         $regionalPropinsi = new Regionalpropinsi();
-        if ($request->isXmlHttpRequest())
-        {
-            $regionalPropinsi->setNamapropinsi($request->get('namapropinsi'));
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($regionalPropinsi);
-            $em->flush();
-
-            $template= $this->renderView('regionalpropinsi/listajax.html.twig',['regionalPropinsi' => $regionalPropinsi]);
-            return new JsonResponse(array('data' => $template), 200);
-        }
-
         $form = $this->createForm('EntitasBundle\Form\RegionalPropinsiType', $regionalPropinsi);
         $form->handleRequest($request);
+        if ($request->isXmlHttpRequest())
+        {
+            if ($form->isSubmitted() && $form->isValid()) 
+            {
+                $regionalPropinsi->setNamapropinsi($request->get('namapropinsi'));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($regionalPropinsi);
+                $em->flush();
+
+                $template= $this->renderView('regionalpropinsi/listajax.html.twig',['regionalPropinsi' => $regionalPropinsi]);
+                return new JsonResponse(array('data' => $template), 200);
+            }
+            else
+            {
+                $validator          = $this->get('validator');
+                $errorsValidator    = $validator->validate($regionalPropinsi);
+
+                foreach ($errorsValidator as $violation) 
+                {
+                     $errors[$violation->getPropertyPath()] = $violation->getMessage();
+                }
+                return new JsonResponse(['error'=>$errors], 400);
+            }
+        }
+
+        
         if ($form->isSubmitted() && $form->isValid()) 
         {
             $em = $this->getDoctrine()->getManager();
@@ -154,5 +171,25 @@ class RegionalPropinsiController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    protected function getErrorMessages(\Symfony\Component\Form\Form $form) 
+    {
+        $errors = array();
+
+        foreach ($form->getErrors() as $key => $error) 
+        {
+            $errors[] = $error->getMessage();
+        }
+
+        foreach ($form->all() as $child) 
+        {
+            if (!$child->isValid()) 
+            {
+                $errors[$child->getName()] = $this->getErrorMessages($child);
+            }
+        }
+
+        return $errors;
     }
 }

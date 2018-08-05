@@ -33,6 +33,10 @@ framework:
     assets: ~
     php_errors:
         log: true
+    serializer:
+        enabled: true
+        enable_annotations: true
+        cache: serializer.mapping.cache.apc
 
 # Twig Configuration
 twig:
@@ -89,16 +93,6 @@ knp_paginator:
         sortable: '@KnpPaginator/Pagination/sortable_link.html.twig' # sort link template                                
         filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # filters template
 
-# swiftmailer:
-#     transport: "%mailer_transport%"
-#     encryption: "%mailer_encryption%"
-#     host:      "%mailer_host%"
-#     username:  "%mailer_user%"
-#     password:  "%mailer_password%"
-#     auth_mode: "%mailer_auth_mode%"
-#     spool:     { type: memory }
-
-
 fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
     firewall_name: main
@@ -109,3 +103,111 @@ fos_user:
     registration:
         confirmation:
             enabled: true
+
+fos_rest:
+    exception:
+        enabled: true
+    routing_loader:
+        default_format: json
+        include_format:       false
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    disable_csrf_role: IS_AUTHENTICATED_ANONYMOUSLY
+    body_converter:
+        enabled: true
+    view:
+        view_response_listener: true
+        formats:
+            json: true
+            xml:  true
+        empty_content: 204
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+    routing_loader:
+        default_format: json
+
+    format_listener:
+        rules:
+            - { path: '^/', priorities: ['json','xml'], fallback_format: json, prefer_extension: true }
+
+jms_serializer:
+    visitors:
+        json:
+            options: JSON_PRETTY_PRINT
+
+nelmio_api_doc:
+    name:                 'API Documentation'
+    exclude_sections:     []
+    default_sections_opened: true
+    motd:
+        template:             'NelmioApiDocBundle::Components/motd.html.twig'
+    request_listener:
+        enabled:              true
+        parameter:            _doc
+    sandbox:
+        enabled:              true
+        endpoint:             null
+        accept_type:          null
+        body_format:
+            formats:
+
+                # Defaults:
+                - form
+                - json
+            default_format:       form # One of "form"; "json"
+        request_format:
+            formats:
+
+                # Defaults:
+                json:                application/json
+                xml:                 application/xml
+            method:               format_param # One of "format_param"; "accept_header"
+            default_format:       json
+    
+        entity_to_choice:     true
+    swagger:
+        model_naming_strategy: dot_notation
+        api_base_path:        /api
+        swagger_version:      '1.2'
+        api_version:          '0.1'
+        info:
+            title:                Symfony2
+            description:          'My awesome Symfony2 app!'
+            TermsOfServiceUrl:    null
+            contact:              null
+            license:              null
+            licenseUrl:           null
+    cache:
+        enabled:              false
+        file:                 '%kernel.cache_dir%/api-doc.cache'
+
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: []
+        allow_headers: []
+        allow_methods: []
+        expose_headers: []
+        max_age: 0
+        hosts: []
+        origin_regex: false
+        forced_allow_origin_value: ~
+    paths:
+        '^/api/':
+            allow_origin: ['*']
+            allow_headers: ['X-Custom-Auth']
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+            max_age: 3600
+        '^/':
+            origin_regex: true
+            allow_origin: ['^http://localhost:[0-9]+']
+            allow_headers: ['X-Custom-Auth']
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+            max_age: 3600
+            hosts: ['^api\.']
+    

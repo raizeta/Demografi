@@ -39,8 +39,8 @@ class RegionalKabupatenController extends Controller
         $regionalKabupaten = new Regionalkabupaten();
         $form = $this->createForm('EntitasBundle\Form\RegionalKabupatenType', $regionalKabupaten);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $em = $this->getDoctrine()->getManager();
             $em->persist($regionalKabupaten);
             $em->flush();

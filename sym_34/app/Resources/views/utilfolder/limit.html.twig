@@ -1,0 +1,14 @@
+<button type="button" class="btn btn-outline-secondary btn-sm" style="margin-bottom:10px;float:right">
+  Show Item  {{itemfirst}}-{{itemlast}} From {{totalitem}}
+</button>
+<button type="button" class="btn btn-outline-secondary btn-sm" style="margin-bottom:10px;float:right;margin-right:10px;">
+    Limit:
+    <select id="dynamic_select" style="border:0px;">
+      <option value="{{path(path_url,{'limit':10})}}" {% if itemperpage == 10 %}selected{%endif %}>10</option>
+      <option value="{{path(path_url,{'limit':20})}}" {% if itemperpage == 20 %}selected{%endif %}>20</option>
+      <option value="{{path(path_url,{'limit':30})}}" {% if itemperpage == 30 %}selected{%endif %}>30</option>
+      <option value="{{path(path_url,{'limit':40})}}" {% if itemperpage == 40 %}selected{%endif %}>40</option>
+      <option value="{{path(path_url,{'limit':50})}}" {% if itemperpage == 50 %}selected{%endif %}>50</option>
+      <option value="{{path(path_url,{'limit':100})}}" {% if itemperpage == 100 %}selected{%endif %}>100</option>
+    </select>
+</button>

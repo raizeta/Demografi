@@ -4,12 +4,16 @@ namespace EntitasBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMSSerializer;
+
 /**
  * RegionalPropinsi
  *
  * @ORM\Table(name="regional_propinsi")
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="EntitasBundle\Repositories\RegionalPropinsiRepository")
+ * @JMSSerializer\ExclusionPolicy("all")
  */
 class RegionalPropinsi
 {
@@ -19,6 +23,7 @@ class RegionalPropinsi
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @JMSSerializer\Expose
      */
     private $id;
 
@@ -26,11 +31,14 @@ class RegionalPropinsi
      * @var string
      *
      * @ORM\Column(name="namapropinsi", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Nama Propinsi Tidak Boleh Kosong")
+     * @JMSSerializer\Expose
      */
     private $namapropinsi;
 
     /**
      * @ORM\OneToMany(targetEntity="RegionalKabupaten", mappedBy="propinsis")
+     * @JMSSerializer\Exclude
      */
     protected $kabupatens;
 

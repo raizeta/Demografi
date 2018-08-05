@@ -4,13 +4,15 @@ namespace EntitasBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMSSerializer;
 /**
  * RegionalKabupaten
  *
  * @ORM\Table(name="regional_kabupaten", indexes={@ORM\Index(name="IDX_4DE3A56CEA5CC336", columns={"propinsis"})})
  * @ORM\Entity
   * @ORM\Entity(repositoryClass="EntitasBundle\Repositories\RegionalKabupatenRepository")
+  * @JMSSerializer\ExclusionPolicy("all")
  */
 class RegionalKabupaten
 {
@@ -20,6 +22,7 @@ class RegionalKabupaten
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @JMSSerializer\Expose
      */
     private $id;
 
@@ -27,6 +30,8 @@ class RegionalKabupaten
      * @var integer
      *
      * @ORM\Column(name="id_kabupaten", type="integer", nullable=false)
+     * @JMSSerializer\Expose
+     * @Assert\NotBlank(message="ID Kabupaten Tidak Boleh Kosong")
      */
     private $idKabupaten;
 
@@ -34,6 +39,8 @@ class RegionalKabupaten
      * @var string
      *
      * @ORM\Column(name="nama_kabupaten", type="string", length=255, nullable=false)
+     * @JMSSerializer\Expose
+     * @Assert\NotBlank(message="Nama Kabupaten Tidak Boleh Kosong")
      */
     private $namaKabupaten;
 
@@ -41,6 +48,8 @@ class RegionalKabupaten
      * @var string
      *
      * @ORM\Column(name="type_kabupaten", type="string", length=255, nullable=false)
+     * @JMSSerializer\Expose
+     * @Assert\NotBlank(message="Type Kabupaten/Kota Tidak Boleh Kosong")
      */
     private $typeKabupaten;
 
@@ -48,6 +57,8 @@ class RegionalKabupaten
      * @var integer
      *
      * @ORM\Column(name="kode_pos", type="integer", nullable=false)
+     * @JMSSerializer\Expose
+     * @Assert\NotBlank(message="Kode Pos Tidak Boleh Kosong")
      */
     private $kodePos;
 
@@ -58,11 +69,14 @@ class RegionalKabupaten
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="propinsis", referencedColumnName="id")
      * })
+     * @JMSSerializer\Expose
+     * @Assert\NotBlank(message="ID Propinsi Tidak Boleh Kosong")
      */
     private $propinsis;
 
     /**
      * @ORM\OneToMany(targetEntity="RegionalKecamatan", mappedBy="kabupatens")
+     * @JMSSerializer\Exclude
      */
     protected $kecamatans;
 

@@ -1,22 +1,21 @@
 entitas_regionalpropinsi:
     resource: "@EntitasBundle/Resources/config/routing/regionalpropinsi.yml"
-    prefix:   /regionalpropinsi
-
+    prefix:   /{_locale}/regionalpropinsi
 entitas_regionalkabupaten:
     resource: "@EntitasBundle/Resources/config/routing/regionalkabupaten.yml"
-    prefix:   /regionalkabupaten
+    prefix:   /{_locale}/regionalkabupaten
 
 entitas_regionalkecamatan:
     resource: "@EntitasBundle/Resources/config/routing/regionalkecamatan.yml"
-    prefix:   /regionalkecamatan
+    prefix:   /{_locale}/regionalkecamatan
 
 entitas_kelamin:
     resource: "@EntitasBundle/Resources/config/routing/kelamin.yml"
-    prefix:   /kelamin
+    prefix:   /{_locale}/kelamin
 
 entitas_pendidikan:
     resource: "@EntitasBundle/Resources/config/routing/pendidikan.yml"
-    prefix:   /pendidikan
+    prefix:   /{_locale}/pendidikan
 
 entitas_pernikahan:
     resource: "@EntitasBundle/Resources/config/routing/pernikahan.yml"

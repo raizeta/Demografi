@@ -3,12 +3,14 @@
 namespace EntitasBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMSSerializer;
 /**
  * RegionalKecamatan
  *
  * @ORM\Table(name="regional_kecamatan", indexes={@ORM\Index(name="IDX_B8576989A4851CF", columns={"kabupatens"})})
  * @ORM\Entity
+ * @JMSSerializer\ExclusionPolicy("all")
  */
 class RegionalKecamatan
 {
@@ -18,6 +20,7 @@ class RegionalKecamatan
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @JMSSerializer\Expose
      */
     private $id;
 
@@ -25,6 +28,7 @@ class RegionalKecamatan
      * @var integer
      *
      * @ORM\Column(name="id_kecamatan", type="integer", nullable=false)
+     * @JMSSerializer\Expose
      */
     private $idKecamatan;
 
@@ -32,6 +36,7 @@ class RegionalKecamatan
      * @var string
      *
      * @ORM\Column(name="nama_kecamatan", type="string", length=255, nullable=false)
+     * @JMSSerializer\Expose
      */
     private $namaKecamatan;
 
@@ -39,6 +44,7 @@ class RegionalKecamatan
      * @var integer
      *
      * @ORM\Column(name="kode_pos", type="integer", nullable=true)
+     * @JMSSerializer\Expose
      */
     private $kodePos;
 
@@ -49,6 +55,7 @@ class RegionalKecamatan
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="kabupatens", referencedColumnName="id")
      * })
+     * @JMSSerializer\Expose
      */
     private $kabupatens;
 

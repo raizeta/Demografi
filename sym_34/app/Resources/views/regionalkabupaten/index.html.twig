@@ -4,6 +4,13 @@
     <a href="{{ path('regionalkabupaten_new') }}" class="btn btn-outline-secondary btn-block btn-sm" role="button" style="margin-bottom:10px;">
         Tambah Kabupaten
     </a>
+    {% if (regionalKabupatens |length != 0) %}
+      {% set currentpage      = regionalKabupatens.currentPageNumber %}
+      {% set itemperpage      = regionalKabupatens.getItemNumberPerPage %}
+      {% set totalitem        = regionalKabupatens.getTotalItemCount %}
+      {% set itemfirst        = regionalKabupatens.getPaginationData.firstItemNumber %}
+      {% set itemlast         = regionalKabupatens.getPaginationData.lastItemNumber %}
+    {% include 'utilfolder/limit.html.twig' with {'path_url':regionalKabupatens.getRoute} %}
     <table class="table table-striped table-dark table-bordered table-hover table-sm">
         <thead>
             <tr>
@@ -33,4 +40,5 @@
     <div class="row align-items-center justify-content-center">
         <div class="navigation">{{ knp_pagination_render(regionalKabupatens) }}</div>
     </div>
+    {% endif %}
 {% endblock %}

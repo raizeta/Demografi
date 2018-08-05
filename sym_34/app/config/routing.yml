@@ -1,7 +1,17 @@
-entitas:
+rest_api:
+    type: rest
+    resource: "@RestApiBundle/Resources/config/routing.yml"
+    prefix:   /api/
+    
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
+entitas_bundle:
     resource: "@EntitasBundle/Resources/config/routing.yml"
     prefix:   /
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    prefix:   /auth
 

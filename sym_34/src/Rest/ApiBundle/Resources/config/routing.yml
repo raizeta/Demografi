@@ -1,0 +1,11 @@
+check:
+    type: rest
+    resource: "@RestApiBundle/Controller/PropinsisController.php"
+
+kabupaten:
+    type: rest
+    resource: "@RestApiBundle/Controller/KabupatenController.php"
+
+kecamatan:
+    type: rest
+    resource: "@RestApiBundle/Controller/KecamatanController.php"

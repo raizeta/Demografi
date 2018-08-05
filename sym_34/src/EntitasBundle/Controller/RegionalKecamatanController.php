@@ -18,11 +18,13 @@ class RegionalKecamatanController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $page   = $request->query->getInt('page', 1);
+        $limit  = $request->query->getInt('limit', 50);
 
+        $em = $this->getDoctrine()->getManager();
         $regionalKecamatans = $em->getRepository('EntitasBundle:RegionalKecamatan')->findAll();
         $paginator  = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($regionalKecamatans,$request->query->getInt('page', 1),10);
+        $pagination = $paginator->paginate($regionalKecamatans,$page,$limit);
 
         return $this->render('regionalkecamatan/index.html.twig', array(
             'regionalKecamatans' => $pagination,

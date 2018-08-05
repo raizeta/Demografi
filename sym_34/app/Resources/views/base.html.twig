@@ -51,6 +51,23 @@
                             </a>
                         </div>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Api Doc
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{{path('nelmio_api_doc_index',{'view':'propinsi'})}}">
+                            Propinsi
+                            </a>
+                          <a class="dropdown-item" href="{{path('nelmio_api_doc_index',{'view':'kabupaten'})}}">
+                            Kabupaten
+                            </a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{{path('nelmio_api_doc_index',{'view':'kecamatan'})}}">
+                            Kecamatan
+                            </a>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="mx-auto order-0">
@@ -89,6 +106,16 @@
         {% block javascripts %}
             <script src="{{asset('jquery/dist/jquery.min.js')}}"></script>
             <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+            <script>
+              $('#dynamic_select').on('change', function () 
+              {
+                  var url = $(this).val(); // get selected value
+                  if (url) { // require a URL
+                      window.location.href = url; // redirect
+                  }
+                  return false;
+              });
+            </script>
 
         {% endblock %}
     </body>
