@@ -50,39 +50,13 @@ class RegionalPropinsiController extends Controller
         $regionalPropinsi = new Regionalpropinsi();
         $form = $this->createForm('EntitasBundle\Form\RegionalPropinsiType', $regionalPropinsi);
         $form->handleRequest($request);
-        if ($request->isXmlHttpRequest())
-        {
-            if ($form->isSubmitted() && $form->isValid()) 
-            {
-                $regionalPropinsi->setNamapropinsi($request->get('namapropinsi'));
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($regionalPropinsi);
-                $em->flush();
-
-                $template= $this->renderView('regionalpropinsi/listajax.html.twig',['regionalPropinsi' => $regionalPropinsi]);
-                return new JsonResponse(array('data' => $template), 200);
-            }
-            else
-            {
-                $validator          = $this->get('validator');
-                $errorsValidator    = $validator->validate($regionalPropinsi);
-
-                foreach ($errorsValidator as $violation) 
-                {
-                     $errors[$violation->getPropertyPath()] = $violation->getMessage();
-                }
-                return new JsonResponse(['error'=>$errors], 400);
-            }
-        }
-
-        
         if ($form->isSubmitted() && $form->isValid()) 
         {
             $em = $this->getDoctrine()->getManager();
             $em->persist($regionalPropinsi);
             $em->flush();
             $this->get('session')->getFlashBag()->add('notice','Data Telah Berhasil di Simpan');
-            return $this->redirectToRoute('regionalpropinsi_new');
+            return $this->redirectToRoute('regionalpropinsi_index');
         }
 
         return ['regionalPropinsi' => $regionalPropinsi,'form' => $form->createView()];
@@ -108,8 +82,20 @@ class RegionalPropinsiController extends Controller
      * Displays a form to edit an existing regionalPropinsi entity.
      *
      */
-    public function editAction(Session $session,Request $request, RegionalPropinsi $regionalPropinsi)
+    public function editAction(Session $session,Request $request, RegionalPropinsi $regionalPropinsi,$id)
     {
+        if ($request->isXmlHttpRequest())
+        {
+            $actionurl  = $this->generateUrl('regionalpropinsi_edit',['id'=>$id]);
+            $editForm   = $this->createForm(RegionalPropinsiType::class,$regionalPropinsi,
+                ['action' => $actionurl,'method' => 'POST']);
+            $editForm->handleRequest($request);
+            return $this->render('regionalpropinsi/modaledit.html.twig', array(
+                'regionalPropinsi' => $regionalPropinsi,
+                'edit_form' => $editForm->createView(),
+            ));
+        }
+
         $pathInfo   = $request->headers->get('referer');
         $data       = parse_url($pathInfo);
         $paramurl   = [];
@@ -123,12 +109,15 @@ class RegionalPropinsiController extends Controller
             $paramurl = $session->get('parameterurl');
         }
         $deleteForm = $this->createDeleteForm($regionalPropinsi);
-        $editForm = $this->createForm('EntitasBundle\Form\RegionalPropinsiType', $regionalPropinsi);
+        $editForm   = $this->createForm('EntitasBundle\Form\RegionalPropinsiType', $regionalPropinsi);
         $editForm->handleRequest($request);
 
+        
         if ($editForm->isSubmitted() && $editForm->isValid()) 
         {
+            
             $this->getDoctrine()->getManager()->flush();
+            $this->get('session')->getFlashBag()->add('notice','Data Telah Berhasil di Update');
             return $this->redirectToRoute('regionalpropinsi_index',$paramurl);
         }
 
@@ -157,6 +146,12 @@ class RegionalPropinsiController extends Controller
         return $this->redirectToRoute('regionalpropinsi_index');
     }
 
+
+    public function deleteAllAction(Request $request)
+    {
+        $product = $request->request->get('checkboxescheck');
+        return new JsonResponse(explode(',',$product));
+    }
     /**
      * Creates a form to delete a regionalPropinsi entity.
      *

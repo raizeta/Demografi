@@ -19,8 +19,15 @@ regionalpropinsi_edit:
     path:     /{id}/edit
     defaults: { _controller: "EntitasBundle:RegionalPropinsi:edit" }
     methods:  [GET, POST]
+    options:
+            expose: true
 
 regionalpropinsi_delete:
     path:     /{id}/delete
     defaults: { _controller: "EntitasBundle:RegionalPropinsi:delete" }
     methods:  DELETE
+
+regionalpropinsi_deleteall:
+    path:     /deleteall
+    defaults: { _controller: "EntitasBundle:RegionalPropinsi:deleteAll" }
+    methods:  POST

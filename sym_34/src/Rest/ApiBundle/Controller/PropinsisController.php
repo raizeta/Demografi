@@ -138,14 +138,16 @@ class PropinsisController extends FOSRestController implements ClassResourceInte
         {
             return View::create("Error Null", Response::HTTP_NOT_FOUND);
         }
-        $form = $this->createForm(RegionalPropinsiType::class, $propinsi, ['csrf_protection' => false]);
-        $form->submit($request->request->all());
-        if ($form->isValid()) 
-        {
+        $nama                       = $request->request->get('namapropinsi');
+        $propinsi->setNamaPropinsi($nama);
+        // $form = $this->createForm(RegionalPropinsiType::class, $propinsi, ['csrf_protection' => false]);
+        // $form->submit($request->request->all(),false);
+        // if ($form->isValid()) 
+        // {
             $em->flush();
-            return View::create($propinsi,201);
-        }
-        return View::create($this->customvalidation($propinsi), 400);
+            return View::create($propinsi,Response::HTTP_OK);
+        // }
+        // return View::create($this->customvalidation($propinsi), 400);
     }
 
     /**
@@ -161,41 +163,20 @@ class PropinsisController extends FOSRestController implements ClassResourceInte
      *     }
      * )
      */
-    public function patchAction(Request $request)
-    {}
-
-    /**
-     * @param Request $request
-     * @return View|\Symfony\Component\Form\Form
-     *
-     * @ApiDoc(
-     *     input="EntitasBundle\Form\RegionalPropinsiType",
-     *     views = { "propinsi" },
-     *     statusCodes={
-     *         201 = "Returned when a new Propinsi has been successful created",
-     *         404 = "Return when not found"
-     *     }
-     * )
-     */
     public function deleteAction(Request $request,$id)
-    {}
+    {
+        $em = $this->getDoctrine()->getManager();
+        $propinsi = $em->getRepository('EntitasBundle:RegionalPropinsi')->find($id);
+        if ($propinsi === null) 
+        {
+            return View::create("Error Null", Response::HTTP_NOT_FOUND);
+        }
+        $em->remove($propinsi);
+        $em->flush();
+        return View::create(['code'=>200,'message'=>'Success Delete '.$propinsi->getNamaPropinsi()],Response::HTTP_OK);
+    }
 
-    /**
-     * @param Request $request
-     * @return View|\Symfony\Component\Form\Form
-     *
-     * @ApiDoc(
-     *     input="EntitasBundle\Form\RegionalPropinsiType",
-     *     views = { "propinsi" },
-     *     statusCodes={
-     *         201 = "Returned when a new Propinsi has been successful created",
-     *         404 = "Return when not found"
-     *     }
-     * )
-     */
-    public function optionsAction(Request $request)
-    {}
-
+    
     private function customvalidation(RegionalPropinsi $propinsi)
     {
         $validator          = $this->get('validator');

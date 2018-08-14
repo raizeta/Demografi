@@ -1,20 +1,20 @@
  <!-- Modal -->
-  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal fade" id="modalNew" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Tambah Propinsi</h5>
+          <h5 class="modal-title">Tambah Propinsi</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        {{ form_start(form, {'attr': {'novalidate': true}}) }}
+        {{ form_start(form, {'attr': {'novalidate': true,'id':'newForm'}}) }}
           <div class="modal-body">
               {{ form_widget(form) }}
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <input id="tag-form-submit" type="submit" class="btn btn-primary" value="Save">
+              <input type="submit" class="btn btn-primary" value="Save">
           </div>
         {{ form_end(form) }}
       </div>

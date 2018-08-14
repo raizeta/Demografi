@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('regionalkecamatan_new') }}" class="btn btn-outline-secondary btn-block btn-sm" role="button" style="margin-bottom:10px;">
-        Tambah Kecamatan
+    <button class="btn btn-outline-danger btn-danger btn-sm" id="deleteBtn" style="display:none;margin-bottom:10px;">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+    <a href="{{ path('regionalkecamatan_new') }}" class="btn btn-outline-secondary btn-sm" role="button" style="margin-bottom:10px;">
+        <i class="fa fa-plus" aria-hidden="true"></i>
     </a>
     {% if (regionalKecamatans |length != 0) %}
       {% set currentpage      = regionalKecamatans.currentPageNumber %}
@@ -14,6 +17,7 @@
     <table class="table table-striped table-dark table-bordered table-hover table-sm">
         <thead>
             <tr>
+                <td align="center"><input type="checkbox" id="checkall"></td>
                 <td align="center">#</td>
                 <td align="center">Kecamatan</td>
                 <td align="center">Kode POS</td>
@@ -24,6 +28,9 @@
         {% for regionalKecamatan in regionalKecamatans %}
             
             <tr>
+                <td align="center">
+                  <input type="checkbox" name="m_checkbox[{{ regionalKecamatan.id }}]" value={{regionalKecamatan.id}} class="thing">
+                </td>
                 <td align="center">
                     <a href="{{ path('regionalkecamatan_show', { 'id': regionalKecamatan.id }) }}">
                         {{ itemfirst + loop.index - 1 }}

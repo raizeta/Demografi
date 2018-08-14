@@ -5,12 +5,13 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" media="screen">
-            <link href="{{asset('custom/style.css')}}" rel="stylesheet" media="screen">
+            <link href="{{asset('custom/styles.css')}}" rel="stylesheet" media="screen">
             <link href="{{asset('font/css/all.css')}}" rel="stylesheet">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav mr-auto">
@@ -96,6 +97,7 @@
             <div class="jumbotron" style="background-color:white;">
                 <div class="row justify-content-md-center" style="margin-top:10px;">
                     <div class="col-10">
+                      <div class="loading">Loading&#8230;</div>
                         {% block body %}
 
                         {% endblock %}
@@ -106,16 +108,86 @@
         {% block javascripts %}
             <script src="{{asset('jquery/dist/jquery.min.js')}}"></script>
             <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.26.11/dist/sweetalert2.all.min.js" integrity="sha256-aWXJZ/4kdONPAkoIYYyE6fmVw0gqPEbnk7nspLANguI=" crossorigin="anonymous"></script>
             <script>
-              $('#dynamic_select').on('change', function () 
+              (function()
               {
-                  var url = $(this).val(); // get selected value
-                  if (url) { // require a URL
-                      window.location.href = url; // redirect
-                  }
-                  return false;
-              });
+                  $('.loading').hide();
+                  $('#dynamic_select').on('change', function () 
+                  {
+                      var url = $(this).val(); // get selected value
+                      if (url) 
+                      { // require a URL
+                          window.location.href = url; // redirect
+                      }
+                      return false;
+                  });
+                  var checkboxes = $('.thing:checkbox');
+                  $(checkboxes).click(function()
+                  {
+                      var checkedCount        = $('.thing:checkbox:checked').length;
+                      checkall.checked        = checkedCount == checkboxes.length;
+                      checkall.indeterminate  = checkedCount > 0 && checkedCount < checkboxes.length;
+                      if(checkedCount > 0)
+                      {
+                        if($("#deleteBtn").is(":hidden"))
+                        {
+                          $('#deleteBtn').show();
+                        } 
+                      }
+                      else
+                      {
+                        $('#deleteBtn').hide();
+                      }
+                  })
+
+                  $( "#checkall" ).click(function() 
+                  {
+                      if($("#deleteBtn").is(":visible"))
+                      {
+                        $('#deleteBtn').hide();
+                      }
+                      else
+                      {
+                        $('#deleteBtn').show();
+                      }
+                      $('.thing:checkbox').prop('checked', this.checked); 
+                  });
+
+                  $('#deleteBtn').on('click', function(event)
+                  {
+                      var id = [];
+                      $('.thing:checkbox:checked').each(function(i)
+                      {
+                          id.push($(this).val());
+                      });
+                      checkboxescheck.value = id;
+                      swal({
+                          title: 'Are you sure?',
+                          text: "You won't be able to revert this!",
+                          type: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Yes, delete it!'
+                        })
+                        .then((result) => 
+                        {
+                          if (result.value) 
+                          {
+                            $('.thing:checkbox').prop('checked', false);
+                            checkall.checked = false;
+                            $('#deleteBtn').hide();
+                            formdelete.submit();
+                          }
+                        })
+                      
+                  });
+              })();
             </script>
+            
 
         {% endblock %}
     </body>

@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    
-    <a href="{{ path('regionalpropinsi_new') }}" class="btn btn-outline-secondary btn-sm" role="button" style="margin-bottom:10px;">
-        Tambah Propinsi
-    </a>
-    <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#exampleModalLong"  style="margin-bottom:10px;">
-      Modal Tambah Propinsi
+    {% include 'utilfolder/flash.html.twig' %}
+    <button class="btn btn-outline-danger btn-danger btn-sm" id="deleteBtn" style="display:none;margin-bottom:10px;">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modalNew"  style="margin-bottom:10px;">
+        <i class="fa fa-plus" aria-hidden="true"></i>
     </button>
     {% if (regionalPropinsis |length != 0) %}
       {% set currentpage      = regionalPropinsis.currentPageNumber %}
@@ -19,6 +19,7 @@
     <table class="table table-striped table-dark table-bordered table-hover table-sm" id="tabledata">
         <thead>
             <tr>
+                <td align="center"><input type="checkbox" id="checkall"></td>
                 <td align="center">#</td>
                 <td align="center">Propinsi</td>
                 <td align="center">Jlh Kab</td>
@@ -29,6 +30,9 @@
         {% for regionalPropinsi in regionalPropinsis %}
             
             <tr>
+                <td align="center">
+                  <input type="checkbox" name="m_checkbox[{{ regionalPropinsi.id }}]" value={{regionalPropinsi.id}} class="thing">
+                </td>
                 <td align="center">
                     <a href="#">
                         {{ itemfirst + loop.index - 1 }} 
@@ -41,7 +45,7 @@
                     &nbsp;&nbsp;{{ regionalPropinsi.kabupatens|length }}
                 </td>
                 <td align="center">
-                    <a href="{{ path('regionalpropinsi_edit', { 'id': regionalPropinsi.id }) }}" class="btn btn-primary btn-sm" aria-label="Settings">
+                    <a class="btn btn-primary btn-sm editBtn" data-id="{{regionalPropinsi.id}}">
                         <i class="fa fa-edit" aria-hidden="true"></i>
                     </a>
                     <a href="{{ path('regionalpropinsi_show', { 'id': regionalPropinsi.id }) }}" class="btn btn-success btn-sm" aria-label="Settings">
@@ -75,7 +79,7 @@
                             </td>
                             <td>&nbsp;&nbsp;{{ regionalKabupaten.typeKabupaten }}</td>
                             <td align="center">
-                                <a href="{{ path('regionalkabupaten_edit', { 'id': regionalKabupaten.id }) }}" class="btn btn-outline-success btn-sm" role="button">Edit</a>
+                                <a href="{{ path('regionalkabupaten_edit', { 'id': regionalKabupaten.id }) }}" class="btn btn-outline-success btn-sm" role="button" data-id="{{regionalKabupaten.id}}">Edit</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -95,39 +99,48 @@
     {% endif %}
 
 
-    <!-- Modal -->
+    <!-- Modal New -->
     {% include 'regionalpropinsi/modalnew.html.twig' %}
+
+    <!-- Modal Edit -->
+    <div id="modalEdit" class="modal fade" role="dialog">
+    </div>
     {# Modal #}
+    <form action="{{path('regionalpropinsi_deleteall')}}" id="formdelete" method="post" accept-charset="UTF-8" class="form-inline">
+        <input type="hidden" name="checkboxescheck" id="checkboxescheck">
+    </form>
 {% endblock %}
 
 {% block javascripts %}
 {{parent()}}
 <script>
-    $('#exampleModalLong').on('shown.bs.modal', function () 
+$(function () 
+{
+    $('#modalNew').on('shown.bs.modal', function () 
     {
-      $('#tag-form').trigger('reset');
+      $('#newForm').trigger('reset');
     });
-    $('#tag-form-submit').on('click', function(e) 
+    $('#modalEdit').on('hidden.bs.modal', function () 
     {
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: "{{path('regionalpropinsi_new')}}",
-            data: $('form.tagForm').serialize(),
-            success: function(response) 
-            {
-                $("#tabledata tr:first").after(response.data);
-            },
-            error: function() 
-            {
-                console.log("Error");
-            },
-            complete:function()
-            {
-                $('#exampleModalLong').modal('toggle');  
-            }
+      $(this).find('#editForm').trigger('reset');
+    });
+    $('.editBtn').on('click', function(event) 
+    {
+        $('.loading').show();
+        $('#modalEdit').html('');
+        var id   = $(this).attr('data-id');
+        var $url =  Routing.generate('regionalpropinsi_edit',{id:id});
+
+        $.get($url, function(data, status)
+        {
+            $('#modalEdit').html(data);
+            var options = {keyboard:true, backdrop:false, show:true};
+            $('#modalEdit').modal(options);
+            $('.loading').hide();
         });
-        return false;
     });
+});
+    
+
 </script>
 {% endblock %}
